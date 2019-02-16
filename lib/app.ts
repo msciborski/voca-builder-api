@@ -1,13 +1,22 @@
 import * as express from "express";
 import * as bodyParser from "body-parser";
 import * as mongoose from "mongoose";
+import { MemoRoutes } from "./routes/memoRoutes";
+import { UserRoutes } from "./routes/userRoutes";
 
 class App {
   public app: express.Application;
-  public mongoUrl: String = 'mongodb://localhost/VocaBuilderDb';
+  public mongoUrl: String = 'mongodb://localhost/vocaBuilderDb';
+  public memoRoutes: MemoRoutes = new MemoRoutes();
+  public userRoutes: UserRoutes = new UserRoutes();
 
   constructor() {
+    this.app = express();
     this.config();
+
+    this.memoRoutes.routes(this.app);
+    this.userRoutes.routes(this.app);
+
     this.configMongo();
   }
 
