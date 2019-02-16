@@ -10,7 +10,8 @@ export class MemoRoutes {
       .post(this.memoController.addMemo);
 
     app.route('/user/:userId/memo/:memoId')
-      .get(this.memoController.getMemo);
+      .get(this.memoController.getMemo)
+      .put(this.memoController.updateMemo);
   }
 
 }

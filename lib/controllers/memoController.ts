@@ -10,7 +10,6 @@ export class MemoController {
       if (err) {
         res.send(err);
       }
-      console.log(user.memos);
       res.json(user.memos);
     })
   }
@@ -40,5 +39,25 @@ export class MemoController {
       }
       res.sendStatus(204);
     });
+  }
+
+  public updateMemo(req: Request, res: Response) {
+    const { isLearned } = req.body;
+
+    User.findOneAndUpdate(
+      { _id: req.params.userId, "memos._id": req.params.memoId },
+      {
+        $set: {
+          "memos.$.isLearned": isLearned
+        }
+      },
+      (err) => {
+        if (err) {
+          res.send(err);
+        }
+
+        res.sendStatus(200);
+      }
+    )
   }
 }
