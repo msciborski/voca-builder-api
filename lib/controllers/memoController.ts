@@ -1,25 +1,36 @@
 import * as mongoose from "mongoose";
 import { Request, Response } from "express";
 import { UserSchema } from "../models/userModel";
-import { MemoSchema } from "../models/memoModel";
 
 const User = mongoose.model('User', UserSchema);
-const Memo = mongoose.model('Memo', MemoSchema);
-
 export class MemoController {
+
   public getMemos(req: Request, res: Response) {
-    User.findOne({ _id: req.params.userId}, 'memos', (err, memos) => {
+    User.findOne({ _id: req.params.userId}, 'memos', (err, user) => {
       if (err) {
         res.send(err);
       }
-      console.log(memos);
-      res.json(memos);
+      console.log(user.memos);
+      res.json(user.memos);
+    })
+  }
+
+  public getMemo(req: Request, res: Response) {
+    User.findOne({ _id: req.params.userId }, 'memos', (err, user) => {
+      if (err) {
+        res.send(err);
+      }
+
+      if(user.memos === undefined) {
+        res.json([]);
+      }
+
+      const { memos } = user;
+      res.json(memos.filter(m => m._id == req.params.memoId));
     })
   }
 
   public addMemo(req: Request, res: Response) {
-    console.log('Tutaj uderzylo');
-    console.log(req.body);
     User.updateOne(
       { _id: req.params.userId },
       { $push: { memos: req.body } }

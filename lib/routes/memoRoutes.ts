@@ -8,6 +8,9 @@ export class MemoRoutes {
     app.route('/user/:userId/memo')
       .get(this.memoController.getMemos)
       .post(this.memoController.addMemo);
+
+    app.route('/user/:userId/memo/:memoId')
+      .get(this.memoController.getMemo);
   }
 
 }
