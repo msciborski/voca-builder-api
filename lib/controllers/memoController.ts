@@ -1,9 +1,11 @@
 import * as mongoose from "mongoose";
 import { Request, Response } from "express";
 import { UserSchema } from "../models/userModel";
+import { TranslationService } from "../services/translationService";
 
 const User = mongoose.model('User', UserSchema);
 export class MemoController {
+  public translationService: TranslationService = new TranslationService();
 
   public getMemos(req: Request, res: Response) {
     User.findOne({ _id: req.params.userId}, 'memos', (err, user) => {
@@ -29,7 +31,12 @@ export class MemoController {
     })
   }
 
-  public addMemo(req: Request, res: Response) {
+  public addMemo(req: Request, res: Response) : void {
+    const { sourceWord } = req.body;
+    console.log(sourceWord);
+    console.log(this.translationService);
+    // const language = this.translationService.detectLanguageOfText(sourceWord);
+    // console.log(language);
     User.updateOne(
       { _id: req.params.userId },
       { $push: { memos: req.body } }
