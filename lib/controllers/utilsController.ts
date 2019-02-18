@@ -7,7 +7,7 @@ export class UtilsController {
   public getAvailableLanguages = async (req: Request, res: Response) => {
     try {
       const languages = await this.translationService.getAvailabeLanguages();
-      res.send(languages);
+      res.send(languages[0]);
     } catch (error) {
       res.send(error);
     }
