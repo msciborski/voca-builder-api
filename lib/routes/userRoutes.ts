@@ -1,4 +1,3 @@
-import { Request, Response} from "express";
 import { UserController } from "../controllers/userController";
 
 export class UserRoutes {

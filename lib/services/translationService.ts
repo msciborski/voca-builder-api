@@ -30,4 +30,8 @@ export class TranslationService {
         }
       })
   }
+
+  public getAvailabeLanguages = () => {
+    return this.translate.getLanguages();
+  }
 }
