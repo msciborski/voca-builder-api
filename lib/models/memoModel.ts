@@ -11,11 +11,6 @@ export const MemoSchema = new Schema({
     type: String,
     required: 'Translated word must be set',
   },
-  destinationLanguage: {
-    type: String,
-    default: 'en',
-    required: 'Destination language is required',
-  },
   isLearned: {
     type: Boolean,
     default: false,
