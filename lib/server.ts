@@ -1,7 +1,7 @@
 import app from "./app";
 
-const PORT = 3000;
-
-app.listen(PORT, () => {
+const PORT = Number.parseInt(process.env.PORT || '3000');
+const HOST = process.env.HOST || '127.0.0.1';
+app.listen(PORT, HOST, () => {
   console.log('Server start on ' + PORT);
 });

@@ -16,6 +16,7 @@ class WinstonLogger {
   private createDirForLog(): void {
     fs.exists(this.logDir, (result) => {
       if (!result) {
+        console.log(`File exist ${result}`)
         fs.mkdir(this.logDir, (err) => {
           console.log(err);
         })

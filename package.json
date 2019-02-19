@@ -6,6 +6,7 @@
   "scripts": {
     "build": "tsc",
     "start": "ts-node lib/server.ts",
+    "start-prod": "PORT=5000 HOST=0.0.0.0 ts-node lib/server.ts",
     "start-dev": "nodemon",
     "prod": "npm run build && npm run start"
   },
