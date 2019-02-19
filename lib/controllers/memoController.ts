@@ -2,18 +2,18 @@ import * as mongoose from "mongoose";
 import { Request, Response } from "express";
 import { UserSchema } from "../models/userModel";
 import { TranslationService } from "../services/translationService";
-import { throws } from "assert";
+import logger from '../winstonLogger';
+
 
 const User = mongoose.model('User', UserSchema);
 export class MemoController {
   public translationService: TranslationService = new TranslationService();
-
+  public logger = logger(__filename);
   public getMemos = (req: Request, res: Response) => {
     User.findOne({ _id: req.params.userId}, 'memos', (err, user) => {
       if (err) {
         res.send(err);
       }
-      console.log(user.memos);
       res.json(user.memos);
     })
   }
@@ -21,15 +21,25 @@ export class MemoController {
   public getMemo = (req: Request, res: Response) => {
     User.findOne({ _id: req.params.userId }, 'memos', (err, user) => {
       if (err) {
+        this.logger.error(err);
         res.send(err);
       }
 
       if(user.memos === undefined) {
+        this.logger.info(`No memos for user ${req.params.userId}`);
         res.json([]);
       }
 
       const { memos } = user;
-      res.json(memos.filter(m => m._id == req.params.memoId));
+      const memosWithId = memos.filter(m => m._id == req.params.memoId);
+
+      if(memosWithId.length > 0) {
+        this.logger.info(`Returning memo ${memosWithId[0]._id} for user: ${req.params.userId}`);
+        res.json(memosWithId[0]);
+      }
+
+      this.logger.warn(`Memo with id: ${req.params.memoId} not found`);
+      res.sendStatus(400);
     })
   }
 
@@ -39,13 +49,15 @@ export class MemoController {
 
     try {
       const { language } = await this.translationService.detectLanguageOfText(sourceWord);
-      let translatedWord;
-      console.log(language)
+      this.logger.info(`Language of word: ${sourceWord}: ${language}`);
 
+      let translatedWord;
       if(language === user.destinationLanguage) {
-        translatedWord = await this.translationService.translateWord(sourceWord, 'en', 'pl');
+        this.logger.info(`Translating ${sourceWord} from ${language} to ${user.sourceLanguage}`);
+        translatedWord = await this.translationService.translateWord(sourceWord, user.destinationLanguage, user.sourceLanguage);
       } else {
-        translatedWord = await this.translationService.translateWord(sourceWord, 'pl', 'en');
+        this.logger.info(`Translating ${sourceWord} from ${user.sourceLanguage} to ${user.destinationLanguage}`);
+        translatedWord = await this.translationService.translateWord(sourceWord, user.sourceLanguage, user.destinationLanguage);
       }
 
       User.updateOne(
@@ -53,11 +65,15 @@ export class MemoController {
         { $push: { memos: { sourceWord, translatedWord } } }
       ).exec((err) => {
         if (err) {
+          this.logger.error(err);
           res.send(err);
         }
+
+        this.logger.info(`Memo add for user: ${req.params.userId}`);
         res.sendStatus(204);
       });
     } catch (error) {
+      this.logger.error(error);
       res.send(error);
     }
 
@@ -75,9 +91,10 @@ export class MemoController {
       },
       (err) => {
         if (err) {
-          res.send(err);
+          this.logger.error(err);
         }
 
+        this.logger.info(`Update memo: ${req.params.memoId}.`);
         res.sendStatus(200);
       }
     )

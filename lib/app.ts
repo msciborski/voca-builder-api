@@ -1,9 +1,11 @@
 import * as express from "express";
 import * as bodyParser from "body-parser";
 import * as mongoose from "mongoose";
+import * as morgan from "morgan";
 import { MemoRoutes } from "./routes/memoRoutes";
 import { UserRoutes } from "./routes/userRoutes";
 import { UtilsRoutes } from "./routes/utilsRoutes";
+import { POINT_CONVERSION_COMPRESSED } from "constants";
 
 class App {
   public app: express.Application;
@@ -20,6 +22,7 @@ class App {
     this.userRoutes.routes(this.app);
     this.utilsRoutes.routes(this.app);
 
+    this.configMorgan();
     this.configMongo();
   }
 
@@ -34,6 +37,20 @@ class App {
   private configMongo(): void {
     mongoose.Promise = global.Promise;
     mongoose.connect(this.mongoUrl);
+  }
+  private configMorgan(): void {
+    // Logg error
+    this.app.use(morgan('dev', {
+      skip: (req: Request, res: Response) => res.status < 400,
+      stream: process.stderr,
+    }));
+
+    // Logg success
+    this.app.use(morgan('dev', {
+      skip: (req: Request, res: Response) => res.status >= 400,
+      stream: process.stdout,
+    }));
+
   }
 }
 
