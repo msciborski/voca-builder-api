@@ -14,6 +14,17 @@ export class MemoController {
       if (err) {
         res.send(err);
       }
+
+      if (!user) {
+        res.sendStatus(400);
+        return;
+      }
+
+      if (!user.memos) {
+        res.json([]);
+        return;
+      }
+
       res.json(user.memos);
     })
   }
@@ -25,9 +36,15 @@ export class MemoController {
         res.send(err);
       }
 
-      if(user.memos === undefined) {
+      if (!user) {
+        res.sendStatus(400);
+        return;
+      }
+
+      if (!user.memos) {
         this.logger.info(`No memos for user ${req.params.userId}`);
         res.json([]);
+        return;
       }
 
       const { memos } = user;
@@ -36,10 +53,12 @@ export class MemoController {
       if(memosWithId.length > 0) {
         this.logger.info(`Returning memo ${memosWithId[0]._id} for user: ${req.params.userId}`);
         res.json(memosWithId[0]);
+        return;
       }
 
       this.logger.warn(`Memo with id: ${req.params.memoId} not found`);
       res.sendStatus(400);
+      return;
     })
   }
 
@@ -67,14 +86,17 @@ export class MemoController {
         if (err) {
           this.logger.error(err);
           res.send(err);
+          return;
         }
 
         this.logger.info(`Memo add for user: ${req.params.userId}`);
-        res.sendStatus(204);
+        res.json({ sourceWord, translatedWord });
+        return;
       });
     } catch (error) {
       this.logger.error(error);
       res.send(error);
+      return;
     }
 
   }
@@ -92,6 +114,7 @@ export class MemoController {
       (err) => {
         if (err) {
           this.logger.error(err);
+          return;
         }
 
         this.logger.info(`Update memo: ${req.params.memoId}.`);
