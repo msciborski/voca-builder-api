@@ -4,11 +4,11 @@ import { UserSchema } from "../models/userModel";
 import { TranslationService } from "../services/translationService";
 import logger from '../winstonLogger';
 
-
 const User = mongoose.model('User', UserSchema);
 export class MemoController {
   public translationService: TranslationService = new TranslationService();
   public logger = logger(__filename);
+
   public getMemos = (req: Request, res: Response) => {
     User.findOne({ _id: req.params.userId}, 'memos', (err, user) => {
       if (err) {

@@ -7,7 +7,8 @@ const User = mongoose.model('User', UserSchema);
 
 export class UserController {
   public logger = logger(__filename);
-  public addUser(req: Request, res: Response) {
+
+  public addUser = (req: Request, res: Response) => {
     let newUser = new User(req.body);
 
     newUser.save((err, user) => {
@@ -21,7 +22,7 @@ export class UserController {
     })
   }
 
-  public getUser(req: Request, res: Response) {
+  public getUser = (req: Request, res: Response) => {
     const { userId } = req.params;
 
     User.findById(userId, (err, user) => {
