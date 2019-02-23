@@ -20,4 +20,15 @@ export class UserController {
       res.send(user);
     })
   }
+
+  public getUser(req: Request, res: Response) {
+    const { userId } = req.params;
+
+    User.findById(userId, (err, user) => {
+      if (err) {
+        res.sendStatus(400);
+      }
+      res.json(user);
+    })
+  }
 }
