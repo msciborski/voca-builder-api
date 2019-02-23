@@ -5,11 +5,13 @@ import * as morgan from "morgan";
 import { MemoRoutes } from "./routes/memoRoutes";
 import { UserRoutes } from "./routes/userRoutes";
 import { UtilsRoutes } from "./routes/utilsRoutes";
-import { POINT_CONVERSION_COMPRESSED } from "constants";
+
+const ENV = process.env.NODE_ENV || 'development';
+const config = require('../config.js')[ENV];
 
 class App {
   public app: express.Application;
-  public mongoUrl: String = 'mongodb://localhost/vocaBuilderDb';
+  public mongoUrl: String = config.dbConnectionString;
   public memoRoutes: MemoRoutes = new MemoRoutes();
   public userRoutes: UserRoutes = new UserRoutes();
   public utilsRoutes: UtilsRoutes = new UtilsRoutes();
@@ -36,7 +38,11 @@ class App {
 
   private configMongo(): void {
     mongoose.Promise = global.Promise;
-    mongoose.connect(this.mongoUrl);
+    mongoose.connect(this.mongoUrl, { useNewUrlParser: true })
+      .then(() => {
+      console.log('Connection to mongo successful');
+    })
+    .catch(err => console.log(err));
   }
   private configMorgan(): void {
     // Logg error
