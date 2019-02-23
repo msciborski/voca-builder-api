@@ -6,7 +6,7 @@ export class UserRoutes {
   public routes(app): void {
     app.route('/user')
       .post(this.userContrller.addUser);
-    app.route('user/:userId')
+    app.route('/user/:userId')
       .get(this.userContrller.getUser);
     }
 }
