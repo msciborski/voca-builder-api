@@ -63,7 +63,7 @@ export class MemoController {
   }
 
   public addMemo = async (req: Request, res: Response) => {
-    const { sourceWord } = req.body;
+    const sourceWord = req.body.sourceWord.selectedText;
     const user = await User.findOne({_id: req.params.userId});
 
     try {

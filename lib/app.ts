@@ -2,6 +2,7 @@ import * as express from "express";
 import * as bodyParser from "body-parser";
 import * as mongoose from "mongoose";
 import * as morgan from "morgan";
+import * as cors from "cors";
 import { MemoRoutes } from "./routes/memoRoutes";
 import { UserRoutes } from "./routes/userRoutes";
 import { UtilsRoutes } from "./routes/utilsRoutes";
@@ -34,6 +35,7 @@ class App {
 
     // applicatin/x-www-form-urlencoded
     this.app.use(bodyParser.urlencoded({ extended: false }));
+    this.app.use(cors());
   }
 
   private configMongo(): void {

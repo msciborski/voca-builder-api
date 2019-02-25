@@ -28,6 +28,11 @@ export class UserController {
     User.findById(userId, (err, user) => {
       if (err) {
         res.sendStatus(400);
+        return;
+      }
+      if (!user) {
+        res.sendStatus(400);
+        return;
       }
       res.json(user);
     })
