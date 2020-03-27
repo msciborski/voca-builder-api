@@ -3,6 +3,8 @@ import * as bodyParser from "body-parser";
 import * as mongoose from "mongoose";
 import * as morgan from "morgan";
 import * as cors from "cors";
+import * as jwt from "express-jwt";
+import * as jwksRsa from "jwks-rsa";
 import { MemoRoutes } from "./routes/memoRoutes";
 import { UserRoutes } from "./routes/userRoutes";
 import { UtilsRoutes } from "./routes/utilsRoutes";
@@ -20,6 +22,8 @@ class App {
   constructor() {
     this.app = express();
     this.config();
+
+    this.configureAuth();
 
     this.memoRoutes.routes(this.app);
     this.userRoutes.routes(this.app);
@@ -46,6 +50,7 @@ class App {
     })
     .catch(err => console.log(err));
   }
+
   private configMorgan(): void {
     // Logg error
     this.app.use(morgan('dev', {
@@ -58,7 +63,22 @@ class App {
       skip: (req: Request, res: Response) => res.status >= 400,
       stream: process.stdout,
     }));
+  }
 
+  private configureAuth(): void {
+    const checkJwt = jwt({
+      secret: jwksRsa.expressJwtSecret({
+        cache: true,
+        rateLimit: true,
+        jwksRequestsPerMinute: 5,
+        jwksUri: config.jwksUri,
+      }),
+      audience: config.audience,
+      issuer: config.issuer,
+      algorithms: ['RS256']
+    })
+
+    this.app.use(checkJwt);
   }
 }
 
