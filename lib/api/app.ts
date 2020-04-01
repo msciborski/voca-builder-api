@@ -10,7 +10,7 @@ import { UserRoutes } from "./routes/userRoutes";
 import { UtilsRoutes } from "./routes/utilsRoutes";
 
 const ENV = process.env.NODE_ENV || 'development';
-const config = require('../config.js')[ENV];
+const config = require('../../config.js')[ENV];
 
 class App {
   public app: express.Application;

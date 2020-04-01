@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { TranslationService } from "../services/translationService";
+import { TranslationService } from "../../services/translationService";
 import logger from "../winstonLogger";
 
 export class UtilsController {

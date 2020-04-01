@@ -5,7 +5,7 @@
   "main": "./dist/server.js",
   "scripts": {
     "build": "tsc",
-    "start": "ts-node lib/server.ts",
+    "start": "ts-node lib/api/server.ts",
     "start-prod": "NODE_ENV=production PORT=5000 HOST=0.0.0.0 ts-node lib/server.ts",
     "start-dev": "nodemon",
     "prod": "npm run build && npm run start"

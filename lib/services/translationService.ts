@@ -4,11 +4,9 @@ const ENV = process.env.NODE_ENV || 'development';
 const config = require('../../config.js')[ENV];
 
 export class TranslationService {
-  public projectId: string = 'translate-231922';
   public translate: Translate;
 
   public constructor() {
-
     this.translate = new Translate({
       key: config.translateAPIKey,
     });
