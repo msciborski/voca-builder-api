@@ -1,4 +1,4 @@
-import { UserController } from "../controllers/userController";
+import { UserController } from "../controllers/UserController";
 
 export class UserRoutes {
   public userContrller: UserController = new UserController();

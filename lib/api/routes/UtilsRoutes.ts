@@ -1,4 +1,4 @@
-import { UtilsController } from "../controllers/utilsController";
+import { UtilsController } from "../controllers/UtilsController";
 
 export class UtilsRoutes {
   public utilsController: UtilsController = new UtilsController();

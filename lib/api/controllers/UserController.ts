@@ -1,7 +1,7 @@
 import * as mongoose from "mongoose";
 import { UserSchema } from "../../models/userModel";
 import { Request, Response } from "express";
-import logger from "../winstonLogger";
+import logger from "../WinstonLogger";
 
 const User = mongoose.model('User', UserSchema);
 

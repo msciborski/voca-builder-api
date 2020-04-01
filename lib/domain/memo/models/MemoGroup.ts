@@ -1,4 +1,4 @@
-import { Memo } from "./memo";
+import { Memo } from "./Memo";
 
 export class MemoGroup {
     private id: string;

@@ -5,9 +5,9 @@ import * as morgan from "morgan";
 import * as cors from "cors";
 import * as jwt from "express-jwt";
 import * as jwksRsa from "jwks-rsa";
-import { MemoRoutes } from "./routes/memoRoutes";
-import { UserRoutes } from "./routes/userRoutes";
-import { UtilsRoutes } from "./routes/utilsRoutes";
+import { MemoRoutes } from "./routes/MemoRoutes";
+import { UserRoutes } from "./routes/UserRoutes";
+import { UtilsRoutes } from "./routes/UtilsRoutes";
 
 const ENV = process.env.NODE_ENV || 'development';
 const config = require('../../config.js')[ENV];

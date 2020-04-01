@@ -2,7 +2,7 @@ import * as mongoose from "mongoose";
 import { Request, Response } from "express";
 import { UserSchema } from "../../models/userModel";
 import { TranslationService } from "../../services/translationService";
-import logger from '../winstonLogger';
+import logger from '../WinstonLogger';
 
 const User = mongoose.model('User', UserSchema);
 export class MemoController {

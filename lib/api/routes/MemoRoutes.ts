@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { MemoController } from "../controllers/memoController";
+import { MemoController } from "../controllers/MemoController";
 
 export class MemoRoutes {
   public memoController: MemoController = new MemoController();

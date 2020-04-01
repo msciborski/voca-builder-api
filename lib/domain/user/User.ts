@@ -1,5 +1,5 @@
-import { UserMemoGroup } from "./userMemoGroup";
-import { UserLearnedMemo } from "./userLearnedMemo";
+import { UserMemoGroup } from "./UserMemoGroup";
+import { UserLearnedMemo } from "./UserLearnedMemo";
 
 export class User {
     private id: string;

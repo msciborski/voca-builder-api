@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { TranslationService } from "../../services/translationService";
-import logger from "../winstonLogger";
+import logger from "../WinstonLogger";
 
 export class UtilsController {
   public translationService: TranslationService = new TranslationService();
