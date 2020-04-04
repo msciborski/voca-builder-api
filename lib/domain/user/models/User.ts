@@ -18,6 +18,12 @@ export class User {
 
     @arrayProp({ _id: false, items: UserLearnedMemo })
     public userLearnedMemos: UserLearnedMemo[] = [];
+
+    constructor(_id: string, sourceLangauge: string, destinationLanguage: string) {
+        this._id = _id;
+        this.sourceLanguage = sourceLangauge;
+        this.destinationLanguage = destinationLanguage;
+    }
 }
 
 export const UserModel = getModelForClass(User);

@@ -1,4 +1,4 @@
 export interface IReader<T> {
-    getById(id: string, onError: any) : Promise<T>;
+    getById(id: string) : Promise<T>;
     getAll(): Promise<T[]>;
 }

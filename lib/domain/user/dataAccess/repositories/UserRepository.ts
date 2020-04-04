@@ -3,10 +3,9 @@ import { User, UserModel } from "../../models/User";
 
 export class UserRepository implements IUserRepository {
 
-    async delete(entity: User): Promise<boolean> {
+    async delete(id: string): Promise<void> {
         try {
-            await UserModel.findOneAndDelete(entity);
-            return true;
+            await UserModel.findOneAndDelete({ _id: id });
         } catch (err) {
             throw err;
         }
@@ -31,7 +30,7 @@ export class UserRepository implements IUserRepository {
         }
     }
 
-    async getById(id: string, onError: any): Promise<User> {
+    async getById(id: string): Promise<User> {
         const user = await UserModel.findById(id);
 
         return user;
