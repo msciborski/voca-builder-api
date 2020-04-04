@@ -1,7 +1,11 @@
 import { IUserService } from "./interfaces/IUserService";
 import { IUserRepository } from "../dataAccess/repositories/interfaces/IUserRepository";
-import { UserViewModel } from "../dtos/UserViewModel";
+import { UserViewModel } from "../viewModels/UserCreateViewModel";
 import { User } from "../models/User";
+import { AddMemoGroupViewModel } from "../viewModels/AddMemoGroupViewModel";
+import { UserMemoGroup } from "../models/UserMemoGroup";
+import { AddLearnedMemoViewModel } from "../viewModels/AddLearnedMemoViewModel";
+import { UserLearnedMemo } from "../models/UserLearnedMemo";
 
 export class UserService implements IUserService {
     private userRepository: IUserRepository;
@@ -28,5 +32,19 @@ export class UserService implements IUserService {
         const users = await this.userRepository.getAll();
 
         return users;
+    }
+
+    public async addMemoGroup(addMemoGroupViewModel: AddMemoGroupViewModel) {
+        const user = await this.userRepository.getById(addMemoGroupViewModel.userId);
+        user.addUserMemoGroup(new UserMemoGroup(addMemoGroupViewModel.memoGroupId));
+
+        await this.userRepository.update(user);
+    }
+
+    public async addLearnedMemo(addLearnedMemoViewModel: AddLearnedMemoViewModel) {
+        const user = await this.userRepository.getById(addLearnedMemoViewModel.userId);
+        user.addUserLearnedMemo(new UserLearnedMemo(addLearnedMemoViewModel.memoId));
+
+        await this.userRepository.update(user);
     }
 }
