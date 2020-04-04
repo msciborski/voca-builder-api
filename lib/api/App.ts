@@ -42,6 +42,7 @@ class App {
     this.app.use(cors());
   }
 
+  // Probably remove and we have to handl
   private configMongo(): void {
     mongoose.Promise = global.Promise;
     mongoose.connect(this.mongoUrl, { useNewUrlParser: true })
