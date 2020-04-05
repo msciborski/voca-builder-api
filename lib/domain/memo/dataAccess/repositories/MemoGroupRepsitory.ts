@@ -30,7 +30,7 @@ export class MemoGroupRepository implements IMemoGroupRepository {
     }
 
     async getById(id: string): Promise<MemoGroup> {
-        const memoGroup = await MemoGroupModel.findById(id);
+        const memoGroup = await MemoGroupModel.findById(id).populate('memos');
 
         return memoGroup;
     }

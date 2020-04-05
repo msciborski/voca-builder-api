@@ -8,6 +8,3 @@ export class UserMemoGroup {
         this.memoGroupId = memoGroupId;
     }
 }
-
-//TODO: Do I need it?
-export const UserMemoGroupModel = getModelForClass(UserMemoGroup);

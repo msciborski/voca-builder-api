@@ -1,5 +1,5 @@
 import { Memo } from "./Memo";
-import { prop, arrayProp, getModelForClass } from "@typegoose/typegoose";
+import { prop, Ref, getModelForClass, arrayProp } from "@typegoose/typegoose";
 
 export class MemoGroup {
     @prop()
@@ -11,8 +11,8 @@ export class MemoGroup {
     @prop()
     ownerId: string;
 
-    @arrayProp({ _id: true, items: Memo})
-    memos: Memo[] = [];
+    @arrayProp({ ref: 'Memo' })
+    memos: Ref<Memo[]> = [];
 
     constructor(id: string, name: string, ownerId: string) {
         this._id = id;

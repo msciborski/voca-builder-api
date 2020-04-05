@@ -8,6 +8,3 @@ export class UserLearnedMemo {
         this.memoId = memoId;
     }
 }
-
-//TODO: Do I need it?
-export const UserLearnedMemoModel = getModelForClass(UserLearnedMemo);
