@@ -9,4 +9,5 @@ export class UserMemoGroup {
     }
 }
 
+//TODO: Do I need it?
 export const UserMemoGroupModel = getModelForClass(UserMemoGroup);

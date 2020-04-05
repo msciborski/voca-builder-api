@@ -2,8 +2,7 @@ import { IMemoGroupRepository } from "./interfaces/IMemoGroupRepository";
 import { MemoGroup, MemoGroupModel } from "../../models/MemoGroup";
 
 //TODO: Move logic to base case Repository<T>
-export class MemoGroupRepository implements IMemoGroupRepository {
-    
+export class MemoGroupRepository implements IMemoGroupRepository {    
     async delete(id: string): Promise<void> {
         try {
             await MemoGroupModel.findOneAndDelete({ _id: id});
@@ -21,10 +20,13 @@ export class MemoGroupRepository implements IMemoGroupRepository {
         }
     }
 
-    async add(entity: MemoGroup): Promise<boolean> {
-        await MemoGroupModel.create(entity);
-
-        return true;
+    async add(entity: MemoGroup): Promise<MemoGroup> {
+        try {
+            const memoGroup: MemoGroup = await MemoGroupModel.create(entity);
+            return memoGroup;
+        } catch (err) {
+            throw err;
+        }
     }
 
     async getById(id: string): Promise<MemoGroup> {
@@ -36,6 +38,11 @@ export class MemoGroupRepository implements IMemoGroupRepository {
     async getAll(): Promise<MemoGroup[]> {
         const memoGroups = await MemoGroupModel.find({});
         return memoGroups;
+    }
+
+    async getMemoGroupsForOwner(ownerId: string) : Promise<MemoGroup[]> {
+        const ownerMemoGroups: MemoGroup[] = await MemoGroupModel.find({ownerId: ownerId});
+        return ownerMemoGroups;
     }
 
 }

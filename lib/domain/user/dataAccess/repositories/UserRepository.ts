@@ -20,13 +20,13 @@ export class UserRepository implements IUserRepository {
         }
     }
 
-    async add(entity: User): Promise<boolean> {
+    async add(entity: User): Promise<User> {
         try {
-            await UserModel.create(entity);
-            return true;
+            const user: User = await UserModel.create(entity);
+            return user;
         } catch (err) {
             // log
-            return false;
+            throw err;
         }
     }
 

@@ -9,4 +9,5 @@ export class UserLearnedMemo {
     }
 }
 
+//TODO: Do I need it?
 export const UserLearnedMemoModel = getModelForClass(UserLearnedMemo);

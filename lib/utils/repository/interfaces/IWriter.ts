@@ -1,3 +1,3 @@
 export interface IWriter<T> {
-    add(entity: T) : Promise<boolean>;
+    add(entity: T) : Promise<T>;
 }

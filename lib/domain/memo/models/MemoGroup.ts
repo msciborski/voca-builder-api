@@ -8,10 +8,13 @@ export class MemoGroup {
     @prop()
     name: string;
 
+    @prop()
+    ownerId: string;
+
     @arrayProp({ _id: true, items: Memo})
     memos: Memo[] = [];
 
-    constructor(id: string, name: string) {
+    constructor(id: string, name: string, ownerId: string) {
         this._id = id;
         this.name = name;
     }   

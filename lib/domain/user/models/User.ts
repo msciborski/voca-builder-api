@@ -1,7 +1,7 @@
 import { UserMemoGroup } from "./UserMemoGroup";
 import { UserLearnedMemo } from "./UserLearnedMemo";
 
-import { prop, arrayProp, getModelForClass } from "@typegoose/typegoose";
+import { prop, arrayProp, getModelForClass, ReturnModelType } from "@typegoose/typegoose";
 
 export class User {
     @prop()
@@ -43,4 +43,4 @@ export class User {
     } 
 }
 
-export const UserModel = getModelForClass(User);
+export const UserModel: ReturnModelType<typeof User> = getModelForClass(User);
