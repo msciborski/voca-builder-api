@@ -16,3 +16,5 @@ export class MemoGroup {
         this.name = name;
     }   
 }
+
+export const MemoGroupModel = getModelForClass(MemoGroup);
