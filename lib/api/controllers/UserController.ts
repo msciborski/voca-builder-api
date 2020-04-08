@@ -1,40 +1,38 @@
 import * as mongoose from "mongoose";
-import { UserSchema } from "../../models/userModel";
 import { Request, Response } from "express";
 import logger from "../WinstonLogger";
+import { IUserService } from "../../domain/user/services/interfaces/IUserService";
 
-const User = mongoose.model('User', UserSchema);
 
 export class UserController {
-  public logger = logger(__filename);
+  private logger;
+  private userService: IUserService;
 
+  constructor(logger, userService: IUserService) {
+    this.logger = logger;
+    this.userService = userService;
+  }
+  // public logger = logger(__filename);
+  
   public addUser = (req: Request, res: Response) => {
-    let newUser = new User(req.body);
-
-    newUser.save((err, user) => {
-      if (err) {
-        this.logger.error(err);
-        res.send(err);
-      }
-
-      this.logger.info(`User with id: ${newUser._id} was added to db`);
+    this.userService.addUser(req.body).then(user => {
       res.send(user);
+    })
+    .catch(err => {
+      this.logger.error(err);
+      res.send(err);
     })
   }
 
   public getUser = (req: Request, res: Response) => {
     const { userId } = req.params;
 
-    User.findById(userId, (err, user) => {
-      if (err) {
-        res.sendStatus(400);
-        return;
-      }
-      if (!user) {
-        res.sendStatus(400);
-        return;
-      }
-      res.json(user);
+    this.userService.getUser(userId).then(user => {
+      res.send(user);
+    })
+    .catch(err => {
+      this.logger.error(err);
+      res.send(err);
     })
   }
 }

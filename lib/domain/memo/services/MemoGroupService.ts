@@ -4,6 +4,7 @@ import { MemoGroupCreateViewModel } from "../viewModels/memoGroup/MemoGroupCreat
 import { MemoGroupReadViewModel } from "../viewModels/memoGroup/MemoGroupReadViewModel";
 import { MemoCreateViewModel } from "../viewModels/memo/MemoCreateViewModel";
 import { MemoGroup } from "../models/MemoGroup";
+import { Memo } from "../models/Memo";
 
 export class MemoGroupService implements IMemoGroupService {
     private memoGroupRepository: IMemoGroupRepository;
@@ -51,12 +52,20 @@ export class MemoGroupService implements IMemoGroupService {
         return ownerMemoGroupsViewModel;
     }
 
-    addMemoToMemoGroup(memoGroupId: string, memo: MemoCreateViewModel) {
-        throw new Error("Method not implemented.");
+    async addMemoToMemoGroup(memoGroupId: string, memo: MemoCreateViewModel) {
+        const memoGroup = await this.memoGroupRepository.getById(memoGroupId);
+        memoGroup.addMemo(new Memo(memo.id, memo.sourceWord, memo.translatedWord));
+
+        await this.memoGroupRepository.update(memoGroup);
     }
-    removeMemoFromMemoGroup(memoGroupId: string, memoId: string) {
-        throw new Error("Method not implemented.");
+
+    async removeMemoFromMemoGroup(memoGroupId: string, memoId: string) {
+        const memoGroup = await this.memoGroupRepository.getById(memoGroupId);
+        memoGroup.removeMemo(memoId);
+
+        await this.memoGroupRepository.update(memoGroup);
     }
+
     copyMemo(sourceMemoGroupId: string, memoId: string, destinationMemoGroupId: string) {
         throw new Error("Method not implemented.");
     }

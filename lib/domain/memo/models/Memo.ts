@@ -15,6 +15,8 @@ export class Memo {
         this.sourceWord = sourceWord;
         this.translatedWord = translatedWord;
     }
+
+ 
 }
 
 export const MemoModel = getModelForClass(Memo);

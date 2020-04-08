@@ -1,11 +1,11 @@
-import { UserViewModel } from "../../viewModels/UserCreateViewModel";
-import { User } from "../../models/User";
+import { UserCreateViewModel } from "../../viewModels/UserCreateViewModel";
 import { AddMemoGroupViewModel } from "../../viewModels/AddMemoGroupViewModel";
+import { UserReadViewModel } from "../../viewModels/UserReadViewModel";
 
 export interface IUserService {
-    addUser(userViewModel: UserViewModel),
+    addUser(userViewModel: UserCreateViewModel) : Promise<UserReadViewModel>,
     deleteUser(id: string),
-    getUser(id: string) : Promise<User>,
-    getUsers() : Promise<User[]>,
+    getUser(id: string) : Promise<UserReadViewModel>,
+    getUsers() : Promise<UserReadViewModel[]>,
     addMemoGroup(addMemoGroupViewModel: AddMemoGroupViewModel),
 }

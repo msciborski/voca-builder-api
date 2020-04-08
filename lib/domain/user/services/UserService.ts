@@ -1,11 +1,12 @@
 import { IUserService } from "./interfaces/IUserService";
 import { IUserRepository } from "../dataAccess/repositories/interfaces/IUserRepository";
-import { UserViewModel } from "../viewModels/UserCreateViewModel";
+import { UserCreateViewModel } from "../viewModels/UserCreateViewModel";
 import { User } from "../models/User";
 import { AddMemoGroupViewModel } from "../viewModels/AddMemoGroupViewModel";
 import { UserMemoGroup } from "../models/UserMemoGroup";
 import { AddLearnedMemoViewModel } from "../viewModels/AddLearnedMemoViewModel";
 import { UserLearnedMemo } from "../models/UserLearnedMemo";
+import { UserReadViewModel } from "../viewModels/UserReadViewModel";
 
 export class UserService implements IUserService {
     private userRepository: IUserRepository;
@@ -14,24 +15,45 @@ export class UserService implements IUserService {
         this.userRepository = userRepository;
     }
 
-    public async addUser(userViewModel: UserViewModel) {
-        await this.userRepository.add(new User(userViewModel.id, userViewModel.sourceLanguage, userViewModel.destinationLanguage))
+    public async addUser(userViewModel: UserCreateViewModel) : Promise<UserReadViewModel> {
+        const user = await this.userRepository
+            .add(new User(userViewModel.id, userViewModel.sourceLanguage, userViewModel.destinationLanguage))
+        
+        return {
+            id: user._id,
+            sourceLanguage: user.sourceLanguage,
+            destinationLanguage: user.destinationLanguage,
+            userLearnedMemos: user.userLearnedMemos,
+            userMemoGroups: user.userMemoGroups,
+        };
     }
 
     public async deleteUser(id: string) {
         await this.userRepository.delete(id)
     }
 
-    public async getUser(id: string) : Promise<User> {
+    public async getUser(id: string) : Promise<UserReadViewModel> {
         const user = await this.userRepository.getById(id);
 
-        return user;
+        return {
+            id: user._id,
+            sourceLanguage: user.sourceLanguage,
+            destinationLanguage: user.destinationLanguage,
+            userLearnedMemos: user.userLearnedMemos,
+            userMemoGroups: user.userMemoGroups,
+        };
     }
 
-    public async getUsers() : Promise<User[]> {
+    public async getUsers() : Promise<UserReadViewModel[]> {
         const users = await this.userRepository.getAll();
 
-        return users;
+        return users.map(u => ({
+            id: u._id,
+            sourceLanguage: u.sourceLanguage,
+            destinationLanguage: u.destinationLanguage,
+            userLearnedMemos: u.userLearnedMemos,
+            userMemoGroups: u.userMemoGroups,
+        }));
     }
 
     public async addMemoGroup(addMemoGroupViewModel: AddMemoGroupViewModel) {
