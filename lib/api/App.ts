@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import * as express from "express";
 import * as bodyParser from "body-parser";
 import * as mongoose from "mongoose";
@@ -5,29 +6,36 @@ import * as morgan from "morgan";
 import * as cors from "cors";
 import * as jwt from "express-jwt";
 import * as jwksRsa from "jwks-rsa";
-import { MemoRoutes } from "./routes/MemoRoutes";
-import { UserRoutes } from "./routes/UserRoutes";
+import "./controllers/TestController";
+
+// import { MemoRoutes } from "./routes/MemoRoutes";
+// import { UserRoutes } from "./routes/UserRoutes";
 import { UtilsRoutes } from "./routes/UtilsRoutes";
+import { Container } from "inversify";
+import { InversifyExpressServer } from "inversify-express-utils";
 
 const ENV = process.env.NODE_ENV || 'development';
 const config = require('../../config.js')[ENV];
 
+import { Auth0AuthProvider } from "./Auth0AuthProvider";
+
 class App {
   public app: express.Application;
   public mongoUrl: String = config.dbConnectionString;
-  public memoRoutes: MemoRoutes = new MemoRoutes();
-  public userRoutes: UserRoutes = new UserRoutes();
+  // public memoRoutes: MemoRoutes = new MemoRoutes();
+  // public userRoutes: UserRoutes = new UserRoutes();
   public utilsRoutes: UtilsRoutes = new UtilsRoutes();
+  public container: Container = new Container();
 
   constructor() {
     this.app = express();
     this.config();
 
-    this.configureAuth();
+    // this.configureAuth();
 
-    this.memoRoutes.routes(this.app);
-    this.userRoutes.routes(this.app);
-    this.utilsRoutes.routes(this.app);
+    // this.memoRoutes.routes(this.app);
+    // this.userRoutes.routes(this.app);
+    // this.utilsRoutes.routes(this.app);
 
     this.configMorgan();
     this.configMongo();
@@ -66,21 +74,24 @@ class App {
     }));
   }
 
-  private configureAuth(): void {
-    const checkJwt = jwt({
-      secret: jwksRsa.expressJwtSecret({
-        cache: true,
-        rateLimit: true,
-        jwksRequestsPerMinute: 5,
-        jwksUri: config.jwksUri,
-      }),
-      audience: config.audience,
-      issuer: config.issuer,
-      algorithms: ['RS256']
-    })
+  // private configureAuth(): void {
+  //   const checkJwt = jwt({
+  //     secret: jwksRsa.expressJwtSecret({
+  //       cache: true,
+  //       rateLimit: true,
+  //       jwksRequestsPerMinute: 5,
+  //       jwksUri: config.authorization.jwksUri,
+  //     }),
+  //     audience: config.authorization.audience,
+  //     issuer: config.authorization.issuer,
+  //     algorithms: ['RS256']
+  //   })
 
-    this.app.use(checkJwt);
-  }
+  //   this.app.use(checkJwt);
+  // }
 }
 
-export default new App().app;
+const app = new App();
+export default 
+  new InversifyExpressServer(app.container, null, null, app.app, Auth0AuthProvider)
+      .build();

@@ -1,12 +1,12 @@
-import { UserController } from "../controllers/UserController";
+// // import { UserController } from "../controllers/UserController";
 
-export class UserRoutes {
-  public userContrller: UserController = new UserController();
+// export class UserRoutes {
+//   public userContrller: UserController = new UserController();
 
-  public routes(app): void {
-    app.route('/user')
-      .post(this.userContrller.addUser);
-    app.route('/user/:userId')
-      .get(this.userContrller.getUser);
-    }
-}
+//   public routes(app): void {
+//     app.route('/user')
+//       .post(this.userContrller.addUser);
+//     app.route('/user/:userId')
+//       .get(this.userContrller.getUser);
+//     }
+// }

@@ -8,7 +8,7 @@ export class TranslationService {
 
   public constructor() {
     this.translate = new Translate({
-      key: config.translateAPIKey,
+      key: config.translation.translateAPIKey,
     });
   }
 

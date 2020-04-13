@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import app from "./App";
 
 const PORT = Number.parseInt(process.env.PORT || '3000');
