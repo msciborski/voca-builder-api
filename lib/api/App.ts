@@ -17,7 +17,7 @@ import { InversifyExpressServer } from "inversify-express-utils";
 const ENV = process.env.NODE_ENV || 'development';
 const config = require('../../config.js')[ENV];
 
-import { Auth0AuthProvider } from "./Auth0AuthProvider";
+import { Auth0AuthProvider } from "./auth/Auth0AuthProvider";
 
 class App {
   public app: express.Application;

@@ -6,7 +6,7 @@
             "type": "node",
             "request": "launch",
             "name": "Build Project",
-            "program": "${workspaceFolder}\\lib\\api\\server.ts",
+            "program": "${workspaceFolder}/lib/api/server.ts",
             "preLaunchTask": "npm: build",
             "sourceMaps": true,
             "smartStep": true,
