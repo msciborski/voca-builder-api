@@ -7,11 +7,16 @@ import { UserMemoGroup } from "../models/UserMemoGroup";
 import { AddLearnedMemoViewModel } from "../viewModels/AddLearnedMemoViewModel";
 import { UserLearnedMemo } from "../models/UserLearnedMemo";
 import { UserReadViewModel } from "../viewModels/UserReadViewModel";
+import { injectable, inject } from "inversify";
+import USER_TYPES from "../types";
 
+@injectable()
 export class UserService implements IUserService {
     private userRepository: IUserRepository;
 
-    constructor(userRepository: IUserRepository) {
+    public constructor(
+        @inject(USER_TYPES.IUserRepository) userRepository: IUserRepository
+    ) {
         this.userRepository = userRepository;
     }
 

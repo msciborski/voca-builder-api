@@ -5,7 +5,9 @@ import { MemoGroupReadViewModel } from "../viewModels/memoGroup/MemoGroupReadVie
 import { MemoCreateViewModel } from "../viewModels/memo/MemoCreateViewModel";
 import { MemoGroup } from "../models/MemoGroup";
 import { Memo } from "../models/Memo";
+import { injectable } from "inversify";
 
+@injectable()
 export class MemoGroupService implements IMemoGroupService {
     private memoGroupRepository: IMemoGroupRepository;
 

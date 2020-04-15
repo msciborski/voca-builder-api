@@ -18,24 +18,20 @@ const ENV = process.env.NODE_ENV || 'development';
 const config = require('../../config.js')[ENV];
 
 import { Auth0AuthProvider } from "./auth/Auth0AuthProvider";
+import UserContainer  from "../domain/user/UserContainer";
+import MemoContainer from "../domain/memo/MemoContainer";
+
 
 class App {
   public app: express.Application;
   public mongoUrl: String = config.dbConnectionString;
-  // public memoRoutes: MemoRoutes = new MemoRoutes();
-  // public userRoutes: UserRoutes = new UserRoutes();
   public utilsRoutes: UtilsRoutes = new UtilsRoutes();
   public container: Container = new Container();
 
   constructor() {
     this.app = express();
     this.config();
-
-    // this.configureAuth();
-
-    // this.memoRoutes.routes(this.app);
-    // this.userRoutes.routes(this.app);
-    // this.utilsRoutes.routes(this.app);
+    this.configureContainer();
 
     this.configMorgan();
     this.configMongo();
@@ -50,6 +46,11 @@ class App {
     this.app.use(cors());
   }
 
+  private configureContainer(): void {
+    this.container.load(UserContainer);
+    this.container.load(MemoContainer);
+  }
+
   // Probably remove and we have to handl
   private configMongo(): void {
     mongoose.Promise = global.Promise;
@@ -59,6 +60,7 @@ class App {
     })
     .catch(err => console.log(err));
   }
+
 
   private configMorgan(): void {
     // Logg error
@@ -73,22 +75,6 @@ class App {
       stream: process.stdout,
     }));
   }
-
-  // private configureAuth(): void {
-  //   const checkJwt = jwt({
-  //     secret: jwksRsa.expressJwtSecret({
-  //       cache: true,
-  //       rateLimit: true,
-  //       jwksRequestsPerMinute: 5,
-  //       jwksUri: config.authorization.jwksUri,
-  //     }),
-  //     audience: config.authorization.audience,
-  //     issuer: config.authorization.issuer,
-  //     algorithms: ['RS256']
-  //   })
-
-  //   this.app.use(checkJwt);
-  // }
 }
 
 const app = new App();

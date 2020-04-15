@@ -1,7 +1,10 @@
 import { IMemoGroupRepository } from "./interfaces/IMemoGroupRepository";
 import { MemoGroup, MemoGroupModel } from "../../models/MemoGroup";
+import { injectable } from "inversify";
+
 
 //TODO: Move logic to base case Repository<T>
+@injectable()
 export class MemoGroupRepository implements IMemoGroupRepository {    
     async delete(id: string): Promise<void> {
         try {

@@ -1,6 +1,9 @@
 import { IUserRepository } from "./interfaces/IUserRepository";
 import { User, UserModel } from "../../models/User";
+import { injectable } from "inversify";
 
+
+@injectable()
 export class UserRepository implements IUserRepository {
 
     async delete(id: string): Promise<void> {
