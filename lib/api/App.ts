@@ -7,16 +7,16 @@ import * as cors from "cors";
 import * as jwt from "express-jwt";
 import * as jwksRsa from "jwks-rsa";
 import "./controllers/TestController";
-
+import "./controllers/UserController";
 // import { MemoRoutes } from "./routes/MemoRoutes";
 // import { UserRoutes } from "./routes/UserRoutes";
 import { UtilsRoutes } from "./routes/UtilsRoutes";
 import { Container } from "inversify";
-import { InversifyExpressServer } from "inversify-express-utils";
+import { InversifyExpressServer, getRouteInfo } from "inversify-express-utils";
 
 const ENV = process.env.NODE_ENV || 'development';
-const config = require('../../config.js')[ENV];
-
+// const config = require('../../config.js')[ENV];
+import { config } from "../../config";
 import { Auth0AuthProvider } from "./auth/Auth0AuthProvider";
 import UserContainer  from "../domain/user/UserContainer";
 import MemoContainer from "../domain/memo/MemoContainer";
@@ -24,7 +24,7 @@ import MemoContainer from "../domain/memo/MemoContainer";
 
 class App {
   public app: express.Application;
-  public mongoUrl: String = config.dbConnectionString;
+  public mongoUrl: string = config.development.dbConnectionString;
   public utilsRoutes: UtilsRoutes = new UtilsRoutes();
   public container: Container = new Container();
 
@@ -53,7 +53,7 @@ class App {
 
   // Probably remove and we have to handl
   private configMongo(): void {
-    mongoose.Promise = global.Promise;
+    (<any>mongoose).Promise = global.Promise;
     mongoose.connect(this.mongoUrl, { useNewUrlParser: true })
       .then(() => {
       console.log('Connection to mongo successful');
@@ -78,6 +78,11 @@ class App {
 }
 
 const app = new App();
-export default 
-  new InversifyExpressServer(app.container, null, null, app.app, Auth0AuthProvider)
+
+const inversifyServer = new InversifyExpressServer(app.container, null, null, app.app, Auth0AuthProvider)
       .build();
+
+const routeInfo = getRouteInfo(app.container)
+console.log(routeInfo);
+
+export default inversifyServer;

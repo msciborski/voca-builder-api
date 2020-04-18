@@ -5,13 +5,16 @@ import { MemoGroupReadViewModel } from "../viewModels/memoGroup/MemoGroupReadVie
 import { MemoCreateViewModel } from "../viewModels/memo/MemoCreateViewModel";
 import { MemoGroup } from "../models/MemoGroup";
 import { Memo } from "../models/Memo";
-import { injectable } from "inversify";
+import { injectable, inject } from "inversify";
+import MEMO_TYPES from "../types";
 
 @injectable()
 export class MemoGroupService implements IMemoGroupService {
     private memoGroupRepository: IMemoGroupRepository;
 
-    constructor(memoGroupRepository: IMemoGroupRepository) {
+    constructor(
+        @inject(MEMO_TYPES.IMemoGroupRepository) memoGroupRepository: IMemoGroupRepository
+    ) {
         this.memoGroupRepository = memoGroupRepository;
     }
 
@@ -56,14 +59,14 @@ export class MemoGroupService implements IMemoGroupService {
 
     async addMemoToMemoGroup(memoGroupId: string, memo: MemoCreateViewModel) {
         const memoGroup = await this.memoGroupRepository.getById(memoGroupId);
-        memoGroup.addMemo(new Memo(memo.id, memo.sourceWord, memo.translatedWord));
+        // memoGroup.addMemo(new Memo(memo.id, memo.sourceWord, memo.translatedWord));
 
         await this.memoGroupRepository.update(memoGroup);
     }
 
     async removeMemoFromMemoGroup(memoGroupId: string, memoId: string) {
         const memoGroup = await this.memoGroupRepository.getById(memoGroupId);
-        memoGroup.removeMemo(memoId);
+        // memoGroup.removeMemo(memoId);
 
         await this.memoGroupRepository.update(memoGroup);
     }

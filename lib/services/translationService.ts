@@ -1,14 +1,16 @@
 import { Translate } from '@google-cloud/translate';
 import { text } from 'body-parser';
+import { config } from "../../config";
 const ENV = process.env.NODE_ENV || 'development';
-const config = require('../../config.js')[ENV];
+
+// const config = require('../../config.js')[ENV];
 
 export class TranslationService {
   public translate: Translate;
 
   public constructor() {
     this.translate = new Translate({
-      key: config.translation.translateAPIKey,
+      key: config.development.translation.translateAPIKey,
     });
   }
 
