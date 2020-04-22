@@ -1,7 +1,3 @@
-// import * as mongoose from "mongoose";
-// import { Request, Response } from "express";
-// import logger from "../WinstonLogger";
-// import { IUserService } from "../../domain/user/services/interfaces/IUserService";
 import { inject } from "inversify";
 import { controller, BaseHttpController, httpGet, httpPost, requestBody} from "inversify-express-utils";
 import { IUserService } from "../../domain/user/services/interfaces/IUserService";
@@ -28,10 +24,13 @@ export class UserController extends BaseHttpController {
         if (this.httpContext.user.isAuthenticated()) {
             userCreateViewModel.id = this.httpContext.user.details.id;
             const userReadViewModel = await this._userService.addUser(userCreateViewModel);
+            // Create DefaultMemoGroup for user
 
             return this.created('', userReadViewModel);
         }
     }
+
+    // PUT ''
 }
 
 // export class UserController {

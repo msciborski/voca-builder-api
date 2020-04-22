@@ -7,5 +7,5 @@ export interface IUserService {
     deleteUser(id: string),
     getUser(id: string) : Promise<UserReadViewModel>,
     getUsers() : Promise<UserReadViewModel[]>,
-    addMemoGroup(addMemoGroupViewModel: AddMemoGroupViewModel),
+    addMemoGroup(addMemoGroupViewModel: AddMemoGroupViewModel) : Promise<UserReadViewModel>,
 }

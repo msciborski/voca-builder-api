@@ -1,10 +1,18 @@
 import { IUserRepository } from "./interfaces/IUserRepository";
 import { User, UserModel } from "../../models/User";
+import { UserMemoGroup } from "../../models/UserMemoGroup"; 
 import { injectable } from "inversify";
-
 
 @injectable()
 export class UserRepository implements IUserRepository {
+
+    async addMemoGroupToUser(userId: string, memoGroup: UserMemoGroup): Promise<User> {
+        const user = await UserModel.findOneAndUpdate(
+            { _id: userId }, 
+            { $push: {'userMemoGroups': memoGroup }})
+
+        return user;
+    }
 
     async delete(id: string): Promise<void> {
         try {

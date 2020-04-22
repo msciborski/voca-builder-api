@@ -33,7 +33,7 @@ export class MemoGroupRepository implements IMemoGroupRepository {
     }
 
     async getById(id: string): Promise<MemoGroup> {
-        const memoGroup = await MemoGroupModel.findById(id).populate('memos');
+        const memoGroup = await MemoGroupModel.findById(id);
 
         return memoGroup;
     }
@@ -44,7 +44,8 @@ export class MemoGroupRepository implements IMemoGroupRepository {
     }
 
     async getMemoGroupsForOwner(ownerId: string) : Promise<MemoGroup[]> {
-        const ownerMemoGroups: MemoGroup[] = await MemoGroupModel.find({ownerId: ownerId});
+        const ownerMemoGroups: MemoGroup[] = await MemoGroupModel.find({ownerId: ownerId})
+
         return ownerMemoGroups;
     }
 

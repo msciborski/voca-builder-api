@@ -19,28 +19,15 @@ export class User {
     @arrayProp({ _id: false, items: UserLearnedMemo })
     public userLearnedMemos: UserLearnedMemo[] = [];
 
+    public get id() {
+        return this._id;
+    }
+
     constructor(_id: string, sourceLangauge: string, destinationLanguage: string) {
         this._id = _id;
         this.sourceLanguage = sourceLangauge;
         this.destinationLanguage = destinationLanguage;
     }
-
-    public addUserMemoGroup(userMemoGroup: UserMemoGroup) {
-        //TODO: Utils method for this type of check
-        if (this.userMemoGroups.some(mg => mg.memoGroupId == userMemoGroup.memoGroupId)) {
-            // throw exception
-        }
-
-        this.userMemoGroups.push(userMemoGroup);
-    }
-
-    public addUserLearnedMemo(userLearnedMemo: UserLearnedMemo) {
-        if (this.userLearnedMemos.some(lm => lm.memoId == userLearnedMemo.memoId)) {
-            // throw exception
-        }
-
-        this.userLearnedMemos.push(userLearnedMemo);
-    } 
 }
 
 export const UserModel: ReturnModelType<typeof User> = getModelForClass(User);

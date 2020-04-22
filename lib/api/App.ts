@@ -8,6 +8,7 @@ import * as jwt from "express-jwt";
 import * as jwksRsa from "jwks-rsa";
 import "./controllers/TestController";
 import "./controllers/UserController";
+import "./controllers/MemoGroupController";
 // import { MemoRoutes } from "./routes/MemoRoutes";
 // import { UserRoutes } from "./routes/UserRoutes";
 import { UtilsRoutes } from "./routes/UtilsRoutes";
@@ -20,6 +21,7 @@ import { config } from "../../config";
 import { Auth0AuthProvider } from "./auth/Auth0AuthProvider";
 import UserContainer  from "../domain/user/UserContainer";
 import MemoContainer from "../domain/memo/MemoContainer";
+import { MemoModel } from "domain/memo/models/Memo";
 
 
 class App {

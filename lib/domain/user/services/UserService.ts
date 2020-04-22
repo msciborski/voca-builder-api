@@ -61,16 +61,16 @@ export class UserService implements IUserService {
         }));
     }
 
-    public async addMemoGroup(addMemoGroupViewModel: AddMemoGroupViewModel) {
-        const user = await this.userRepository.getById(addMemoGroupViewModel.userId);
-        user.addUserMemoGroup(new UserMemoGroup(addMemoGroupViewModel.memoGroupId));
+    public async addMemoGroup(addMemoGroupViewModel: AddMemoGroupViewModel) : Promise<UserReadViewModel> {
+        const user = await this.userRepository.addMemoGroupToUser(addMemoGroupViewModel.userId, 
+            new UserMemoGroup(addMemoGroupViewModel.memoGroupId));
 
-        await this.userRepository.update(user);
+        return user;
     }
 
     public async addLearnedMemo(addLearnedMemoViewModel: AddLearnedMemoViewModel) {
         const user = await this.userRepository.getById(addLearnedMemoViewModel.userId);
-        user.addUserLearnedMemo(new UserLearnedMemo(addLearnedMemoViewModel.memoId));
+        // user.addUserLearnedMemo(new UserLearnedMemo(addLearnedMemoViewModel.memoId));
 
         await this.userRepository.update(user);
     }

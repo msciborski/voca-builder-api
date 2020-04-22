@@ -34,7 +34,8 @@
     "jwks-rsa": "^1.7.0",
     "mongoose": "^5.9.9",
     "nodemon": "^1.18.10",
-    "reflect-metadata": "^0.1.13"
+    "reflect-metadata": "^0.1.13",
+    "uuid": "^7.0.3"
   },
   "devDependencies": {
     "cors": "^2.8.5",

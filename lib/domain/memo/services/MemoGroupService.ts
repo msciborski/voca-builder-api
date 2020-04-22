@@ -7,6 +7,7 @@ import { MemoGroup } from "../models/MemoGroup";
 import { Memo } from "../models/Memo";
 import { injectable, inject } from "inversify";
 import MEMO_TYPES from "../types";
+import { v4 as uuidv4 } from "uuid";
 
 @injectable()
 export class MemoGroupService implements IMemoGroupService {
@@ -19,8 +20,7 @@ export class MemoGroupService implements IMemoGroupService {
     }
 
     async createMemoGroup(memoGroup: MemoGroupCreateViewModel) : Promise<MemoGroupReadViewModel> {
-        const addedMemoGroup = await this.memoGroupRepository.add(new MemoGroup(memoGroup._id, memoGroup.name, memoGroup.ownerId));
-
+        const addedMemoGroup = await this.memoGroupRepository.add(new MemoGroup(uuidv4(), memoGroup.name, memoGroup.ownerId));
 
         return {
             id: addedMemoGroup._id,
@@ -47,14 +47,8 @@ export class MemoGroupService implements IMemoGroupService {
 
     async getOwnerMemoGroups(userId: string): Promise<MemoGroupReadViewModel[]> {
         const ownerMemoGroups = await this.memoGroupRepository.getMemoGroupsForOwner(userId);
-        const ownerMemoGroupsViewModel = ownerMemoGroups.map(mg => { return {
-            id: mg._id,
-            name: mg.name,
-            ownerId: mg.ownerId,
-            memos: mg.memos,
-        }});
 
-        return ownerMemoGroupsViewModel;
+        return ownerMemoGroups;
     }
 
     async addMemoToMemoGroup(memoGroupId: string, memo: MemoCreateViewModel) {
