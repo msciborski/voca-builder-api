@@ -4,16 +4,14 @@ import * as bodyParser from "body-parser";
 import * as mongoose from "mongoose";
 import * as morgan from "morgan";
 import * as cors from "cors";
-import * as jwt from "express-jwt";
-import * as jwksRsa from "jwks-rsa";
-import "./controllers/TestController";
-import "./controllers/UserController";
-import "./controllers/MemoGroupController";
-// import { MemoRoutes } from "./routes/MemoRoutes";
-// import { UserRoutes } from "./routes/UserRoutes";
 import { UtilsRoutes } from "./routes/UtilsRoutes";
 import { Container } from "inversify";
 import { InversifyExpressServer, getRouteInfo } from "inversify-express-utils";
+
+import "./controllers/UserController";
+import "./controllers/MemoGroupController";
+import "./controllers/MemoController";
+
 
 const ENV = process.env.NODE_ENV || 'development';
 // const config = require('../../config.js')[ENV];

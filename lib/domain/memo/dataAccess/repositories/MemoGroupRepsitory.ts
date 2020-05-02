@@ -1,11 +1,18 @@
 import { IMemoGroupRepository } from "./interfaces/IMemoGroupRepository";
 import { MemoGroup, MemoGroupModel } from "../../models/MemoGroup";
-import { injectable } from "inversify";
+import { injectable, inject } from "inversify";
+import { MemoCreateViewModel } from "../../viewModels/memo/MemoCreateViewModel";
 
 
 //TODO: Move logic to base case Repository<T>
 @injectable()
-export class MemoGroupRepository implements IMemoGroupRepository {    
+export class MemoGroupRepository implements IMemoGroupRepository {
+    async addMemoToMemoGroup(memoGroupId: string, memoId: string): Promise<MemoGroup> {
+        const memoGroup = await this.getById(memoGroupId);
+        memoGroup.memos.push(memoId);
+        return this.update(memoGroup);
+    } 
+
     async delete(id: string): Promise<void> {
         try {
             await MemoGroupModel.findOneAndDelete({ _id: id});
@@ -33,7 +40,7 @@ export class MemoGroupRepository implements IMemoGroupRepository {
     }
 
     async getById(id: string): Promise<MemoGroup> {
-        const memoGroup = await MemoGroupModel.findById(id);
+        const memoGroup = await (await MemoGroupModel.findById(id).populate('memos')).execPopulate();
 
         return memoGroup;
     }

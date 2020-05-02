@@ -1,5 +1,5 @@
 import { Memo, MemoModel } from "./Memo";
-import { prop, Ref, getModelForClass, arrayProp } from "@typegoose/typegoose";
+import { prop, Ref, getModelForClass, arrayProp, mongoose } from "@typegoose/typegoose";
 
 export class MemoGroup {
     @prop()
@@ -11,8 +11,8 @@ export class MemoGroup {
     @prop()
     ownerId: string;
 
-    @arrayProp({ ref: 'Memo' })
-    memos: Ref<Memo>[];
+    @arrayProp({ ref: 'Memo', refType: mongoose.Schema.Types.String })
+    memos: Ref<Memo, string>[];
 
     public get id() {
         return this._id;

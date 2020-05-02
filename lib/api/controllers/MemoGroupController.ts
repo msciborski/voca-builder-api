@@ -10,7 +10,7 @@ const memoGroupService = inject(MEMO_TYPES.IMemoGroupService);
 const userService = inject(USER_TYPES.IUserService);
 
 @controller('/memogroups')
-export class MemoController extends BaseHttpController {
+export class MemoGroupController extends BaseHttpController {
     @memoGroupService _memoGroupService: IMemoGroupService;
     @userService _userService: IUserService;
 
@@ -18,6 +18,7 @@ export class MemoController extends BaseHttpController {
     public async addMemoGroup(@requestBody() memoGroupCreateViewModel: MemoGroupCreateViewModel) {
         if (this.httpContext.user.isAuthenticated()) {
             memoGroupCreateViewModel.ownerId = this.httpContext.user.details.id;
+            
             const memoGroupReadViewModel = await this._memoGroupService.createMemoGroup(memoGroupCreateViewModel);
             const user = await this._userService.addMemoGroup({ 
                 memoGroupId: memoGroupReadViewModel.id, 

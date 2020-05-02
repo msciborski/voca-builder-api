@@ -10,6 +10,10 @@ export class Memo {
     @prop()
     translatedWord: string;
 
+    public get id() {
+        return this._id;
+    }
+
     constructor(id: string, sourceWord:string, translatedWord: string) {
         this._id = id;
         this.sourceWord = sourceWord;
