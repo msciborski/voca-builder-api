@@ -2,15 +2,12 @@ import { IMemoGroupService } from "./interfaces/IMemoGroupService";
 import { IMemoGroupRepository } from "../dataAccess/repositories/interfaces/IMemoGroupRepository";
 import { MemoGroupCreateViewModel } from "../viewModels/memoGroup/MemoGroupCreateViewModel";
 import { MemoGroupReadViewModel } from "../viewModels/memoGroup/MemoGroupReadViewModel";
-import { MemoCreateViewModel } from "../viewModels/memo/MemoCreateViewModel";
 import { MemoGroup } from "../models/MemoGroup";
-import { Memo } from "../models/Memo";
 import { injectable, inject } from "inversify";
 import MEMO_TYPES from "../types";
 import { v4 as uuidv4 } from "uuid";
 import { IMemoService } from "./interfaces/IMemoService";
 import { MemoReadViewModel } from "../viewModels/memo/MemoReadViewModel";
-import { mapArrayOptions } from "@typegoose/typegoose/lib/internal/utils";
 
 const memoGroupRepository = inject(MEMO_TYPES.IMemoGroupRepository);
 const memoService = inject(MEMO_TYPES.IMemoService);
@@ -57,9 +54,8 @@ export class MemoGroupService implements IMemoGroupService {
         });
     }
 
-    async addMemoToMemoGroup(memoGroupId: string, memoCreateViewModel: MemoCreateViewModel) {
-        const memo = await this._memoService.addMemo(memoCreateViewModel);
-        const memoGroup = await this._memoGroupRepository.addMemoToMemoGroup(memoGroupId, memo.id);
+    async addMemoToMemoGroup(memoGroupId: string, memoCreateViewModel: MemoReadViewModel) {
+        const memoGroup = await this._memoGroupRepository.addMemoToMemoGroup(memoGroupId, memoCreateViewModel.id);
 
         return memoGroup;
     }

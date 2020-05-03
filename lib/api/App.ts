@@ -4,7 +4,6 @@ import * as bodyParser from "body-parser";
 import * as mongoose from "mongoose";
 import * as morgan from "morgan";
 import * as cors from "cors";
-import { UtilsRoutes } from "./routes/UtilsRoutes";
 import { Container } from "inversify";
 import { InversifyExpressServer, getRouteInfo } from "inversify-express-utils";
 
@@ -25,7 +24,6 @@ import { MemoModel } from "domain/memo/models/Memo";
 class App {
   public app: express.Application;
   public mongoUrl: string = config.development.dbConnectionString;
-  public utilsRoutes: UtilsRoutes = new UtilsRoutes();
   public container: Container = new Container();
 
   constructor() {

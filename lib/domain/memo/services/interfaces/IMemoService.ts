@@ -1,6 +1,7 @@
-import { MemoCreateViewModel } from "domain/memo/viewModels/memo/MemoCreateViewModel";
-import { MemoReadViewModel } from "domain/memo/viewModels/memo/MemoReadViewModel";
+import { MemoCreateViewModel } from "../../viewModels/memo/MemoCreateViewModel";
+import { MemoReadViewModel } from "../../viewModels/memo/MemoReadViewModel";
+import { UserLanguagePreferences } from "../../viewModels/translate/UserLanguagePreferences";
 
 export interface IMemoService {
-    addMemo(memoCreateViewModel: MemoCreateViewModel) : Promise<MemoReadViewModel>
+    addMemo(memoCreateViewModel: MemoCreateViewModel, userLanguagePreferences: UserLanguagePreferences) : Promise<MemoReadViewModel>
 }
